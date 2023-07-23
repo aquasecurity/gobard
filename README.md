@@ -55,18 +55,14 @@ func main() {
 
 	bard01 := gobard.New(cookie)
 
-	prompt := "Act as a simple calculator and calculate 2 + 2. Give the result only, no more words."
-
-	err := bard01.Ask(url.QueryEscape(prompt))
+	err := bard01.Ask(url.QueryEscape("Act as a simple calculator and calculate 2 + 2. Give the result only, no more words."))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
 	}
-
 	for i := 0; i < bard01.GetNumOfAnswers(); i++ {
 		answerMD, _ := render.Render(bard01.GetAnswer())
 		fmt.Printf("%s\n", answerMD)
-		fmt.Printf("----\n")
 		bard01.Next()
 	}
 
@@ -77,12 +73,44 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
 	}
-
 	for i := 0; i < bard01.GetNumOfAnswers(); i++ {
 		answerMD, _ := render.Render(bard01.GetAnswer())
 		fmt.Printf("%s\n", answerMD)
-		fmt.Printf("----\n")
 		bard01.Next()
 	}
 }
+```
+
+## NOTES
+
+1. Each Bard object, from `gobard.new()`, will have its own context until `Reset()` is called:
+
+```
+Bard01: Act as a simple calculator and calculate 2 + 2. Give the result only, no more words.
+
+  Sure, I can help you with that.                                             
+                                                                              
+  2 + 2 = 4                                                                   
+                                                                              
+  I hope this is helpful. Let me know if you have any other questions.        
+
+Bard02: Act as a simple calculator and calculate 4 + 8. Give the result only, no more words.
+
+  Sure, I can help you with that.                                             
+                                                                              
+  4 + 8 = 12                                                                  
+                                                                              
+  Is there anything else I can help you with?                                 
+
+Bard01: What if I add 5 to the result ?
+
+  If you add 5 to the result of 2 + 2, you get 4 + 5 = 9.                     
+                                                                              
+  Is there anything else I can help you with today?                           
+
+Bard02: What if I add 5 to the result ?
+
+  If you add 5 to the result of 4 + 8, you get 12 + 5 = 17.                   
+                                                                              
+  Is there anything else I can help you with?                   
 ```
