@@ -28,7 +28,6 @@ package main
 
 import (
 	"fmt"
-	"net/url"
 	"os"
 
 	"github.com/aquasecurity/gobard"
@@ -55,7 +54,7 @@ func main() {
 
 	bard01 := gobard.New(cookie)
 
-	err := bard01.Ask(url.QueryEscape("Act as a simple calculator and calculate 2 + 2. Give the result only, no more words."))
+	err := bard01.Ask("Act as a simple calculator and calculate 2 + 2. Give the result only, no more words.")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
@@ -68,7 +67,7 @@ func main() {
 
 	bard01.Next() // will continue the conversation using the first answer as a base
 
-	err = bard01.Ask(url.QueryEscape("What if I add 3 to the result ?"))
+	err = bard01.Ask("What if I add 3 to the result ?")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
