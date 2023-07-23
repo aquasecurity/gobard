@@ -2,6 +2,14 @@
 
 Unofficial Golang API for Google BARD ChatBOT.
 
+## OBTAIN A BARD COOKIE
+
+1. Visit https://bard.google.com/ (login with your account).
+2. F12 for console.
+3. Session: Application → Cookies → `__Secure-1PSID` cookie value.
+
+> ATTENTION: Do not share your auth cookie.
+
 ## HOWTO
 
 - Create a GOBARD object.
