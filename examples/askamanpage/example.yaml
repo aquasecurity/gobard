@@ -1,0 +1,48 @@
+# "Read %URL% is given to all questions orelse Bard loses context because of long answers
+manpages:
+    - openat
+    - connect
+    - select
+    - poll
+questions:
+    - title: Syscall Prototype
+      question: |
+          Read %URL% and Tell me the syscall prototype (including argument name and types).
+    - title: Syscall Description
+      question: |
+          Read %URL% and Give me a very short description of the system call in one line.
+    - title: Syscall Summary
+      question: |
+          Read %URL% and Give me a summary of the system call.
+    - title: Syscall Arguments Description
+      question: |
+          Read %URL% and Create a table with:
+            - Syscall Argument Name
+            - Syscall Argument Description
+    - title: Syscall Arguments Types
+      question: |
+          Read %URL% and Create a table with:
+            - Syscall Argument Name 
+            - Syscall Argument Type
+            - Comma Separated Tags (K or U, TOCTOU, OPT):
+              - K or U (K is a kernel address space argument and U is a userland address space argument)
+              - OPT (argument can be null in the linux kernel)
+              - TOCTOU (argument is vulnerable to TOCTOU)
+    - title: Flags and Consntants
+      question: |
+          Read %URL% and List all flags or constant values, or macros, and their meaning.
+    - title: Usage
+      question: |
+          Read %URL% and Explain how to use this system call. Give an example if possible.
+    - title: Why Trace this Syscall
+      question: |
+          Read %URL% and Explain why someone would want to tracee this system call.
+    - title: Problems
+      question: |
+          Read %URL% and Explain problems that could occur when tracing this system call.
+    - title: Performance
+      question: |
+          Read %URL% and Explain performance problems that could occur when tracing this system call.
+    - title: Related Syscalls
+      question: |
+          Read %URL% and Give a complete list of related, or similar, linux system calls.
