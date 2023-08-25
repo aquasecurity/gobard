@@ -1,4 +1,4 @@
-package gobard
+package bard
 
 import (
 	"bytes"
@@ -78,7 +78,8 @@ func (a *Answer) getChoiceID() string {
 
 // Bard is the main struct for the bard.google.com API.
 type Bard struct {
-	cookie     string          // auth cookie
+	PSID      string
+	PSIDTS	   string
 	answers    map[int]*Answer // up to 3 answers per question
 	currAnswer int             // current answer
 	numAnswers int             // current number of answers
@@ -86,9 +87,10 @@ type Bard struct {
 }
 
 // New creates a new Bard instance.
-func New(cookie string) *Bard {
+func New(PSID, PSIDTS string) *Bard {
 	b := &Bard{
-		cookie:  cookie,
+		PSID: PSID,
+		PSIDTS: PSIDTS,
 		answers: make(map[int]*Answer),
 	}
 
@@ -215,16 +217,18 @@ var headers map[string]string = map[string]string{
 	"Referer":       "https://bard.google.com/",
 }
 
+
 // createRestClient creates a resty client with the needed configuration.
 func (b *Bard) createRestClient() {
 	b.client = resty.New()
 	b.client.SetLogger(Logger{})
 	b.client.SetDebug(false)
 	b.client.SetHeaders(headers)
-	b.client.SetCookie(&http.Cookie{
-		Name:  authCookieName,
-		Value: b.cookie,
-	})
+	cookies := []*http.Cookie{
+		{Name: "__Secure-1PSID", Value: b.PSID},
+		{Name: "__Secure-1PSIDTS", Value: b.PSIDTS},
+	}
+	b.client.SetCookies(cookies)
 }
 
 var snim0eRegex = regexp.MustCompile(`SNlM0e\":\"(.*?)\"`)
@@ -253,8 +257,6 @@ func (b *Bard) getSnim0eValue() (string, error) {
 
 // createSession creates the session for the query request.
 func (b *Bard) createSession(prompt string) ([]byte, error) {
-	// sessionM: [["Hello.+How+are+you+%3F"],null,["conversationId","responseId","choiceId"]]
-
 	session := []interface{}{
 		[]string{
 			prompt,
@@ -356,7 +358,7 @@ func (b *Bard) doAsk() error {
 
 	// Sanity check
 	if len(promptAnswer) == 0 {
-		return fmt.Errorf("no answer ?")
+		return fmt.Errorf("bing not response")
 	}
 
 	// Set the current number of answers
