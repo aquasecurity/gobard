@@ -6,7 +6,7 @@ Unofficial Golang API for Google BARD ChatBOT.
 
 1. Visit https://bard.google.com/ (login with your account).
 2. F12 for console.
-3. Session: Application → Cookies → `__Secure-1PSID` cookie value.
+3. Session: Application → Cookies → `__Secure-1PSID` and `__Secure-1PSIDTS` cookie value.
 
 > ATTENTION: Do not share your auth cookie.
 
@@ -44,15 +44,19 @@ func init() {
 }
 
 func main() {
-	cookie := os.Getenv("BARD_COOKIE")
-	if cookie == "" {
-		fmt.Fprintf(os.Stderr, "BARD_COOKIE is not set\n")
+	PSID := os.Getenv("__Secure-1PSID")
+	if PSID == "" {
+		mt.Fprintf(os.Stderr, "__Secure-1PSID is not set\n")
 		os.Exit(1)
 	}
 
-	gobard.New(cookie)
+	PSIDTS := os.Getenv("__Secure-1PSIDTS")
+	if PSIDTS == "" {
+		mt.Fprintf(os.Stderr, "__Secure-1PSIDTS is not set\n")
+		os.Exit(1)
+	}
 
-	bard01 := gobard.New(cookie)
+	bard01 := gobard.New(PSID, PSIDTS)
 
 	err := bard01.Ask("Act as a simple calculator and calculate 2 + 2. Give the result only, no more words.")
 	if err != nil {
