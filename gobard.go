@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"net/url"
 	"regexp"
 	"strings"
 	"time"
@@ -105,8 +104,6 @@ func New(PSID, PSIDTS string) *Bard {
 
 // Ask asks a question to bard.google.com.
 func (b *Bard) Ask(prompt string) error {
-	prompt = url.QueryEscape(prompt)
-
 	b.createRestClient()
 
 	// Prepare request
